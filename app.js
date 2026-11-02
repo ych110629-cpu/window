@@ -311,7 +311,7 @@ function standardSummary(item) {
     return `型號：${item.standardModel || ""}${dimension ? `，設計尺寸：${dimension}` : item.standardModel ? "，尺寸未建檔" : ""}`;
   }
   if (item?.standardType === "固定間距") {
-    return `固定間距：兩側@${item.standardSpacingSides || ""}cm；中間@@${item.standardSpacingMiddle || ""}cm`;
+    return `固定間距：兩側@${item.standardSpacingSides || ""}cm；中間@${item.standardSpacingMiddle || ""}cm`;
   }
   return "";
 }
@@ -319,7 +319,7 @@ function standardSummary(item) {
 function standardActualValue(item) {
   if (item?.standardType === "型號") return getModelDimension(item.standardModel);
   if (item?.standardType === "固定間距") {
-    return `兩側@${item.standardSpacingSides || ""}cm；中間@@${item.standardSpacingMiddle || ""}cm`;
+    return `兩側@${item.standardSpacingSides || ""}cm；中間@${item.standardSpacingMiddle || ""}cm`;
   }
   return standardSummary(item);
 }
@@ -544,7 +544,7 @@ document.querySelector("#exportButton").addEventListener("click", () => {
     ["表單名稱", document.querySelector("#checklistTitle").value],
     [],
     ["檢查日期", "檢查項目", "棟別", "樓層", "位置", "標準類型", "型號／兩側間距", "設計尺寸／中間間距", "實際"],
-    ...checklistItems.map((item) => [item.checkDate, item.item, item.building, item.floor, item.room, item.standardType, item.standardType === "型號" ? item.standardModel : item.standardType === "固定間距" ? `兩側@${item.standardSpacingSides || ""}cm` : "", item.standardType === "型號" ? getModelDimension(item.standardModel) : item.standardType === "固定間距" ? `中間@@${item.standardSpacingMiddle || ""}cm` : "", item.actual]),
+    ...checklistItems.map((item) => [item.checkDate, item.item, item.building, item.floor, item.room, item.standardType, item.standardType === "型號" ? item.standardModel : item.standardType === "固定間距" ? `兩側@${item.standardSpacingSides || ""}cm` : "", item.standardType === "型號" ? getModelDimension(item.standardModel) : item.standardType === "固定間距" ? `中間@${item.standardSpacingMiddle || ""}cm` : "", item.actual]),
   ];
   const csv = "\uFEFF" + rows.map((row) => row.map((value) => `"${String(value ?? "").replace(/"/g, '""')}"`).join(",")).join("\r\n");
   const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
