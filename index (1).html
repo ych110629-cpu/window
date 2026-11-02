@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f2f5f1" />
+    <title>自主檢查照片自檢表</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css?v=fixed-spacing-1" />
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="app.js?v=w20d-width-1" defer></script>
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <a class="brand" href="#" aria-label="自主檢查照片自檢表首頁">
+          <span class="brand-mark"><i data-lucide="clipboard-check"></i></span>
+          <span>檢點 <span class="brand-light">/</span> CHECK</span>
+        </a>
+        <div class="topbar-meta">
+          <span class="privacy-note"><i data-lucide="shield-check"></i> 圖片僅在此瀏覽器處理</span>
+          <span class="topbar-divider"></span>
+          <span class="today-date" id="todayDate"></span>
+        </div>
+      </header>
+
+      <main>
+        <section class="page-heading">
+          <div>
+            <p class="eyebrow">SITE INSPECTION <span></span> 工作區</p>
+              <h1>整理檢查照片，<em>完成</em>現場自檢紀錄。</h1>
+              <p class="heading-copy">一次加入多張照片，逐筆填寫檢查日期、位置、標準與實際狀況。</p>
+          </div>
+          <div class="stepper" aria-label="製作流程">
+            <div class="step active"><span>01</span><b>加入照片</b></div>
+            <span class="step-line"></span>
+            <div class="step"><span>02</span><b>填寫紀錄</b></div>
+            <span class="step-line"></span>
+            <div class="step"><span>03</span><b>匯出使用</b></div>
+          </div>
+        </section>
+
+        <section class="workspace" aria-label="自檢表工作區">
+          <aside class="source-panel">
+            <div class="panel-heading">
+              <div>
+                <p class="section-kicker">01 / SOURCE</p>
+                <h2>檢查照片</h2>
+              </div>
+              <span class="panel-icon"><i data-lucide="images"></i></span>
+            </div>
+
+            <label class="upload-zone" id="uploadZone" for="imageInput">
+              <input id="imageInput" type="file" accept="image/*" multiple hidden />
+              <span class="upload-placeholder" id="uploadPlaceholder">
+                <span class="upload-icon"><i data-lucide="image-up"></i></span>
+                <strong>拖放多張檢查照片到這裡</strong>
+                <span>或點擊一次選取多張照片</span>
+                <small>JPG、PNG、WEBP，每張最大 20 MB</small>
+              </span>
+            </label>
+            <div class="upload-actions">
+              <button class="button button-secondary" id="cameraButton" type="button"><i data-lucide="camera"></i> 拍攝／新增照片</button>
+              <input id="cameraInput" type="file" accept="image/*" capture="environment" multiple hidden />
+            </div>
+            <p class="source-footnote"><i data-lucide="shield-check"></i> 照片只在此瀏覽器預覽，不會上傳至伺服器。</p>
+          </aside>
+
+          <section class="checklist-panel" aria-label="自檢表編輯器">
+            <div class="checklist-heading">
+              <div>
+                <p class="section-kicker">02 / CHECKLIST</p>
+                <h2>自檢表 <span class="item-count" id="itemCount">0 項</span></h2>
+              </div>
+              <div class="table-actions">
+                <button class="icon-button" id="modelTableButton" type="button" title="上傳型號尺寸表（CSV／TSV）" aria-label="上傳型號尺寸表"><i data-lucide="file-up"></i></button>
+                <button class="icon-button" id="addRowButton" type="button" title="新增檢查項目" aria-label="新增檢查項目"><i data-lucide="plus"></i></button>
+                <button class="icon-button" id="clearRowsButton" type="button" title="清空自檢表" aria-label="清空自檢表"><i data-lucide="trash-2"></i></button>
+              </div>
+            </div>
+            <input id="modelTableInput" type="file" accept=".csv,.tsv,.txt,text/csv,text/tab-separated-values" hidden />
+
+            <div class="title-row">
+              <label for="checklistTitle">表單名稱</label>
+              <input id="checklistTitle" type="text" value="現場作業自檢表" maxlength="60" />
+            </div>
+            <p class="sync-hint"><i data-lucide="link-2"></i> 日期與檢查項目以第一張照片為準，其餘照片自動同步 <span id="modelTableStatus"></span></p>
+
+            <div class="table-wrap">
+              <table>
+                <caption>臺南市安平區億載安居社會住宅新建統包工程<br />自主檢查照片</caption>
+                <thead class="print-table-head">
+                  <tr><th colspan="2">臺南市安平區億載安居社會住宅新建統包工程</th></tr>
+                  <tr><th colspan="2">自主檢查照片</th></tr>
+                </thead>
+                <tbody id="checklistBody"></tbody>
+              </table>
+              <div class="empty-state" id="emptyState">
+                <div class="empty-graphic"><i data-lucide="clipboard-list"></i><span></span></div>
+                <strong>表格正在等候第一個項目</strong>
+                <p>加入照片後，新增一筆檢查紀錄開始填寫。</p>
+                <button class="text-action" id="emptyAddButton" type="button"><i data-lucide="plus"></i> 新增檢查紀錄</button>
+              </div>
+            </div>
+
+            <div class="table-footer">
+              <span id="recordCount">0 筆檢查紀錄</span>
+              <span id="photoSummary">0 張照片</span>
+            </div>
+
+            <div class="export-bar">
+              <div class="export-copy"><i data-lucide="file-check-2"></i><span><strong>準備好帶去現場了嗎？</strong><small>匯出後即可分享或列印使用</small></span></div>
+              <div class="export-actions">
+                <button class="button button-secondary" id="printButton" type="button"><i data-lucide="printer"></i> 列印</button>
+                <button class="button button-secondary" id="reportButton" type="button"><i data-lucide="file-image"></i> 含照片文件</button>
+                <button class="button button-export" id="exportButton" type="button"><i data-lucide="download"></i> 匯出 CSV</button>
+              </div>
+            </div>
+          </section>
+        </section>
+        <footer class="page-footer"><span>檢點 CHECK <span class="footer-mark">●</span> 現場檢查，清楚一點。</span><span>檢查照片與紀錄僅保留於目前瀏覽器工作階段</span></footer>
+      </main>
+      <datalist id="buildingOptions"><option value="A棟"></option><option value="B棟"></option></datalist>
+      <datalist id="floorOptions"><option value="B2F"></option><option value="B1F"></option><option value="1F"></option><option value="2F"></option><option value="3F"></option><option value="4F"></option><option value="5F"></option><option value="6F"></option><option value="7F"></option><option value="8F"></option><option value="9F"></option><option value="10F"></option><option value="11F"></option><option value="12F"></option><option value="13F"></option><option value="R1F"></option><option value="R2F"></option></datalist>
+      <datalist id="roomOptions"><option value="01"></option><option value="02"></option><option value="03"></option><option value="101"></option><option value="102"></option><option value="201"></option><option value="202"></option><option value="A20-1"></option><option value="A20-2"></option><option value="A26-1"></option><option value="A26-2"></option><option value="B15-1"></option><option value="B15-2"></option></datalist>
+      <datalist id="modelOptions"></datalist>
+      <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    </div>
+  </body>
+</html>
